@@ -1,41 +1,38 @@
 import puppeteer from "puppeteer";
 
-async function main() {
-    const browser = await puppeteer.launch({
-        headless: true,
-        args: [
-            "--no-sandbox",
-            "--disable-setuid-sandbox",
-            "--disable-dev-shm-usage",
-            "--disable-extensions",
-        ],
-        defaultViewport: { width: 1920, height: 1080 },
-    });
+/**
+ * Launches a Puppeteer browser, navigates to a webpage, and then closes the browser.
+ *
+ * Launch Options:
+ * - headless: Run the browser in headless mode (no GUI).
+ * - args:
+ *   - "--no-sandbox": Required if running as the root user.
+ *   - "--disable-setuid-sandbox": Optional, try if you encounter sandbox errors.
+ */
 
-    const page = await browser.newPage();
+const runPuppeteer = async () => {
+    try {
+        // Launch a Puppeteer browser instance with custom arguments
+        const browser = await puppeteer.launch({
+            headless: true,
+            args: ["--no-sandbox", "--disable-setuid-sandbox"],
+        });
 
-    // Navigate the page to a URL.
-    await page.goto("https://developer.chrome.com/");
+        // Open a new page in the browser
+        const page = await browser.newPage();
 
-    // Set screen size.
-    await page.setViewport({ width: 1080, height: 1024 });
+        // Navigate to the specified URL
+        await page.goto("https://www.google.com");
 
-    // Type into search box using accessible input name.
-    await page.locator("aria/Search").fill("automate beyond recorder");
+        console.log("Navigation to Google completed.");
 
-    // Wait and click on first result.
-    await page.locator(".devsite-result-item-link").click();
+        // Close the browser
+        await browser.close();
+        console.log("Browser closed successfully.");
+    } catch (error) {
+        console.error("An error occurred:", error);
+    }
+};
 
-    // Locate the full title with a unique string.
-    const textSelector = await page
-        .locator("text/Customize and automate")
-        .waitHandle();
-    const fullTitle = await textSelector?.evaluate((el) => el.textContent);
-
-    // Print the full title.
-    console.log('The title of this blog post is "%s".', fullTitle);
-
-    await browser.close();
-}
-
-main();
+// Execute the function
+runPuppeteer();
