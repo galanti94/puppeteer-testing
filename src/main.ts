@@ -2,7 +2,7 @@ import puppeteer from "puppeteer";
 
 async function main() {
     const browser = await puppeteer.launch({
-        headless: "shell",
+        headless: true,
         args: [
             "--no-sandbox",
             "--disable-setuid-sandbox",
