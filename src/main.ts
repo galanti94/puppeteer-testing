@@ -7,6 +7,7 @@ async function main() {
             "--no-sandbox",
             "--disable-setuid-sandbox",
             "--disable-dev-shm-usage",
+            "--disable-extensions",
         ],
         defaultViewport: { width: 1920, height: 1080 },
     });
