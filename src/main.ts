@@ -1,4 +1,4 @@
-import puppeteer from "puppeteer";
+import puppeteer from "puppeteer-core";
 
 /**
  * Launches a Puppeteer browser, navigates to a webpage, and then closes the browser.
